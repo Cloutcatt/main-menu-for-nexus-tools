@@ -184,6 +184,7 @@ header p {
 }
 
 .stable { color: #3fb950; background-color: rgba(63, 185, 80, 0.1); border: 1px solid rgba(63, 185, 80, 0.2); }
+.alpha { color: #db61f5; background-color: rgba(219, 97, 245, 0.1); border: 1px solid rgba(219, 97, 245, 0.2); }
 .beta { color: #f2cc60; background-color: rgba(242, 204, 96, 0.1); border: 1px solid rgba(242, 204, 96, 0.2); }
 .early-access { color: #f0883e; background-color: rgba(240, 136, 62, 0.1); border: 1px solid rgba(240, 136, 62, 0.2); }
 .unstable { color: #f85149; background-color: rgba(248, 81, 73, 0.1); border: 1px solid rgba(248, 81, 73, 0.2); }
