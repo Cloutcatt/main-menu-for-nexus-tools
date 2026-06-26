@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Tools</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>Nexus Tools</h1>
+        <p>The ultimate collection of my web development projects and tools for mainly roblox videos.</p>
+    </header>
+
+    <section class="profile-container">
+        <div class="profile-card">
+            <div class="profile-info">
+                <h3>Created by lolcat</h3>
+                <p>Web Developer & Content Creator</p>
+            </div>
+            <div class="profile-right">
+                <span class="project-count">4 Active Projects</span>
+                <div class="profile-actions">
+                    <a href="https://github.com/Cloutcatt" target="_blank" class="profile-btn github-btn">View GitHub Profile</a>
+                    <a href="https://www.youtube.com/@lolcatt1" target="_blank" class="profile-btn youtube-btn">
+                        <span class="yt-triangle"></span> YouTube Channel
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="grid-container">
+        <div class="card" data-url="https://cloutcatt.github.io/roblox-fake-buy-pop-up-maker/">
+            <div class="card-header">
+                <h2>roblox-fake-buy-pop-up-maker</h2>
+                <span class="status stable">● Stable</span>
+            </div>
+            <p>A tool that generates realistic, custom mockups of the classic Roblox in-game purchase prompt.</p>
+            <button class="btn">Launch App</button>
+        </div>
+
+        <div class="card" data-url="https://cloutcatt.github.io/video-planner/">
+            <div class="card-header">
+                <h2>video-planner</h2>
+                <span class="status early-access">● Early Access</span>
+            </div>
+            <p>A handy tool to plan out video creation and scheduling.</p>
+            <button class="btn">Launch App</button>
+        </div>
+
+        <div class="card" data-url="https://cloutcatt.github.io/youtube-thumbnail-tester/">
+            <div class="card-header">
+                <h2>youtube-thumbnail-tester</h2>
+                <span class="status beta">● Beta</span>
+            </div>
+            <p>A website where you can check how your thumbnail looks on other websites.</p>
+            <button class="btn">Launch App</button>
+        </div>
+
+        <div class="card" data-url="https://cloutcatt.github.io/online-whiteboard/">
+            <div class="card-header">
+                <h2>online-whiteboard</h2>
+                <span class="status unstable">● Unstable</span>
+            </div>
+            <p>A simple digital canvas for sketching and brainstorming.</p>
+            <button class="btn">Launch App</button>
+        </div>
+    </main>
+
+    <div id="transition-overlay"></div>
+
+    <script>
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                const targetUrl = this.getAttribute('data-url');
+                const overlay = document.getElementById('transition-overlay');
+                
+                // Get the exact dimensions and positioning of the clicked card
+                const rect = this.getBoundingClientRect();
+                
+                // Set the overlay position exactly where the card is right now
+                overlay.style.top = rect.top + 'px';
+                overlay.style.left = rect.left + 'px';
+                overlay.style.width = rect.width + 'px';
+                overlay.style.height = rect.height + 'px';
+                
+                // Show the overlay block
+                overlay.style.display = 'block';
+                
+                // Trigger the scale animation to fill the screen
+                setTimeout(() => {
+                    overlay.classList.add('active');
+                }, 10);
+                
+                // Redirect after the animation completes (0.45 seconds)
+                setTimeout(() => {
+                    window.location.href = targetUrl;
+                }, 450);
+            });
+        });
+    </script>
+
+</body>
+</html>
