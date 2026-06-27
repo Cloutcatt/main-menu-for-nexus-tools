@@ -8,6 +8,11 @@
 </head>
 <body>
 
+    <div id="announcement-banner" class="announcement-banner">
+        <span class="banner-text">📢 <strong>Notice:</strong> Roblox Chat Generator is officially live! Working on Thumbnail Tester enhancements next.</span>
+        <button id="close-banner" class="close-banner-btn">&times;</button>
+    </div>
+
     <header>
         <h1>Nexus Tools</h1>
         <p>The ultimate collection of my web development projects and tools for mainly roblox videos.</p>
@@ -18,9 +23,44 @@
             <div class="profile-info">
                 <h3>Created by lolcat</h3>
                 <p>Web Developer & Content Creator</p>
+                
+                <div class="settings-panel">
+                    
+                    <div class="control-row">
+                        <div class="search-wrapper">
+                            <input type="text" id="tool-search" class="search-input" placeholder="Search projects...">
+                            <span id="search-counter" class="search-counter">Showing all tools</span>
+                        </div>
+                        <button id="release-filter" class="filter-toggle-btn">🔍 Show Release Only</button>
+                    </div>
+
+                    <div class="setting-item">
+                        <button id="logs-toggle" class="setting-btn">📜 View Developer Logs</button>
+                    </div>
+                    
+                    <div id="dev-logs-wrapper" class="dev-logs-wrapper">
+                        <div id="dev-logs-container" class="dev-logs-box">
+                            <div id="inventory-breakdown" class="inventory-breakdown"></div>
+                            
+                            <div class="log-entry">
+                                <span class="log-date">June 27, 2026</span>
+                                <p><strong>v1.2</strong> - Added Roblox Chat Generator. Features include custom chat logs, fake whisper parameters, and system alert message testing.</p>
+                            </div>
+                            <div class="log-entry">
+                                <span class="log-date">June 26, 2026</span>
+                                <p><strong>v1.1</strong> - Small bug fixes.</p>
+                            </div>
+                            <div class="log-entry">
+                                <span class="log-date">June 26, 2026</span>
+                                <p><strong>v1.0</strong> - Added whiteboard (early access).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            
             <div class="profile-right">
-                <span class="project-count">5 Active Projects</span>
+                <span id="dynamic-project-count" class="project-count">0 Active Projects</span>
                 <div class="profile-actions">
                     <a href="https://github.com/Cloutcatt" target="_blank" class="profile-btn github-btn">View GitHub Profile</a>
                     <a href="https://www.youtube.com/@lolcatt1" target="_blank" class="profile-btn youtube-btn">
@@ -31,28 +71,34 @@
         </div>
     </section>
 
-    <main class="grid-container">
-        <div class="card" data-url="https://cloutcatt.github.io/roblox-fake-chat-generator/">
+    <main class="grid-container" id="projects-grid">
+        <div id="search-fallback" class="search-fallback-box" style="display: none;">
+            <h3>🔍 No tools found matching that criteria</h3>
+            <p>Try checking your spelling or clearing the active release filter toggle above.</p>
+        </div>
+
+        <div class="card card-visible" data-id="roblox-chat" data-url="https://cloutcatt.github.io/roblox-fake-chat-generator/">
+            <button class="favorite-btn" title="Pin to top">★</button>
             <div class="card-header">
                 <h2>roblox-chat-generator</h2>
-                <span class="status stable">● Stable</span>
+                <span class="status stable">● Release</span>
             </div>
-            <div class="card-content-wrapper">
-                <p>Compose realistic custom chat logs, private whisper sessions, system message alerts, and togglable profanity filters for video content creation.</p>
-            </div>
+            <p>Compose realistic custom chat logs, private whisper sessions, system message alerts, and togglable profanity filters for video content creation.</p>
             <button class="btn">Launch App</button>
         </div>
 
-        <div class="card" data-url="https://cloutcatt.github.io/roblox-fake-buy-pop-up-maker/">
+        <div class="card card-visible" data-id="pop-up-maker" data-url="https://cloutcatt.github.io/roblox-fake-buy-pop-up-maker/">
+            <button class="favorite-btn" title="Pin to top">★</button>
             <div class="card-header">
                 <h2>roblox-fake-buy-pop-up-maker</h2>
-                <span class="status stable">● Stable</span>
+                <span class="status stable">● Release</span>
             </div>
             <p>A tool that generates realistic, custom mockups of the classic Roblox in-game purchase prompt.</p>
             <button class="btn">Launch App</button>
         </div>
 
-        <div class="card" data-url="https://cloutcatt.github.io/video-planner/">
+        <div class="card card-visible" data-id="video-planner" data-url="https://cloutcatt.github.io/video-planner/">
+            <button class="favorite-btn" title="Pin to top">★</button>
             <div class="card-header">
                 <h2>video-planner</h2>
                 <span class="status early-access">● Early Access</span>
@@ -61,7 +107,8 @@
             <button class="btn">Launch App</button>
         </div>
 
-        <div class="card" data-url="https://cloutcatt.github.io/youtube-thumbnail-tester/">
+        <div class="card card-visible" data-id="thumbnail-tester" data-url="https://cloutcatt.github.io/youtube-thumbnail-tester/">
+            <button class="favorite-btn" title="Pin to top">★</button>
             <div class="card-header">
                 <h2>youtube-thumbnail-tester</h2>
                 <span class="status alpha">● Alpha - Expect Bugs</span>
@@ -70,7 +117,8 @@
             <button class="btn">Launch App</button>
         </div>
 
-        <div class="card" data-url="https://cloutcatt.github.io/online-whiteboard/">
+        <div class="card card-visible" data-id="whiteboard" data-url="https://cloutcatt.github.io/online-whiteboard/">
+            <button class="favorite-btn" title="Pin to top">★</button>
             <div class="card-header">
                 <h2>online-whiteboard</h2>
                 <span class="status unstable">● Unstable</span>
@@ -83,32 +131,192 @@
     <div id="transition-overlay"></div>
 
     <script>
-        document.querySelectorAll('.card').forEach(card => {
+        const cards = document.querySelectorAll('.card');
+        const grid = document.getElementById('projects-grid');
+        const searchInput = document.getElementById('tool-search');
+        const searchCounter = document.getElementById('search-counter');
+        const filterBtn = document.getElementById('release-filter');
+        const fallbackBox = document.getElementById('search-fallback');
+        
+        let releaseOnlyMode = false;
+
+        function calculateMetrics() {
+            const totalCount = cards.length;
+            let release = 0, earlyAccess = 0, experimental = 0;
+
+            cards.forEach(card => {
+                const badge = card.querySelector('.status');
+                if (badge.classList.contains('stable')) release++;
+                else if (badge.classList.contains('early-access')) earlyAccess++;
+                else experimental++;
+            });
+
+            document.getElementById('dynamic-project-count').textContent = `${totalCount} Active Projects`;
+            document.getElementById('inventory-breakdown').innerHTML = `📊 <strong>Real Inventory:</strong> ${release} Release | ${earlyAccess} Early Access | ${experimental} Experimental`;
+        }
+
+        const closeBannerBtn = document.getElementById('close-banner');
+        const announcementBanner = document.getElementById('announcement-banner');
+
+        closeBannerBtn.addEventListener('click', () => {
+            announcementBanner.style.display = 'none';
+        });
+
+        const logsToggle = document.getElementById('logs-toggle');
+        const logsWrapper = document.getElementById('dev-logs-wrapper');
+
+        logsToggle.addEventListener('click', () => {
+            if (logsWrapper.classList.contains('open')) {
+                logsWrapper.classList.remove('open');
+                logsWrapper.style.maxHeight = null;
+                logsToggle.textContent = '📜 View Developer Logs';
+            } else {
+                logsWrapper.classList.add('open');
+                logsWrapper.style.maxHeight = logsWrapper.scrollHeight + "px";
+                logsToggle.textContent = '❌ Close Developer Logs';
+            }
+        });
+
+        function filterProjects() {
+            const query = searchInput.value.toLowerCase();
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const title = card.querySelector('h2').textContent.toLowerCase();
+                const description = card.querySelector('p').textContent.toLowerCase();
+                const isRelease = card.querySelector('.status').classList.contains('stable');
+
+                const matchesSearch = title.includes(query) || description.includes(query);
+                const matchesFilter = !releaseOnlyMode || isRelease;
+
+                if (matchesSearch && matchesFilter) {
+                    if (card.style.display === 'none') {
+                        card.style.display = 'flex';
+                    }
+                    setTimeout(() => {
+                        card.classList.add('card-visible');
+                        card.classList.remove('card-hidden');
+                    }, 10);
+                    visibleCount++;
+                } else {
+                    card.classList.remove('card-visible');
+                    card.classList.add('card-hidden');
+                    
+                    setTimeout(() => {
+                        if (card.classList.contains('card-hidden')) {
+                            card.style.display = 'none';
+                        }
+                    }, 250);
+                }
+            });
+
+            if (query === "" && !releaseOnlyMode) {
+                searchCounter.textContent = "Showing all tools";
+            } else {
+                searchCounter.textContent = `Showing ${visibleCount} of ${cards.length} tools`;
+            }
+
+            if (visibleCount === 0) {
+                setTimeout(() => { if (visibleCount === 0) fallbackBox.style.display = 'block'; }, 200);
+            } else {
+                fallbackBox.style.display = 'none';
+            }
+        }
+
+        searchInput.addEventListener('input', filterProjects);
+        
+        filterBtn.addEventListener('click', () => {
+            releaseOnlyMode = !releaseOnlyMode;
+            if (releaseOnlyMode) {
+                filterBtn.textContent = '👁️ Show All Tools';
+                filterBtn.classList.add('active-filter');
+            } else {
+                filterBtn.textContent = '🔍 Show Release Only';
+                filterBtn.classList.remove('active-filter');
+            }
+            filterProjects();
+        });
+
+        let favorites = JSON.parse(localStorage.getItem('nexus_favorites')) || [];
+
+        function updateCardOrder() {
+            const cardsArray = Array.from(cards);
+            cardsArray.sort((a, b) => {
+                const idA = a.getAttribute('data-id');
+                const idB = b.getAttribute('data-id');
+                const favA = favorites.includes(idA) ? 1 : 0;
+                const favB = favorites.includes(idB) ? 1 : 0;
+                return favB - favA;
+            });
+            
+            cardsArray.forEach(card => grid.appendChild(card));
+        }
+
+        cards.forEach(card => {
+            const id = card.getAttribute('data-id');
+            const star = card.querySelector('.favorite-btn');
+            if (favorites.includes(id)) {
+                card.classList.add('is-pinned');
+                star.classList.add('favorited');
+            }
+        });
+        updateCardOrder();
+
+        document.querySelectorAll('.favorite-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const card = this.closest('.card');
+                const id = card.getAttribute('data-id');
+
+                if (favorites.includes(id)) {
+                    favorites = favorites.filter(favId => favId !== id);
+                    card.classList.remove('is-pinned');
+                    this.classList.remove('favorited');
+                } else {
+                    favorites.push(id);
+                    card.classList.add('is-pinned');
+                    this.classList.add('favorited');
+                }
+
+                localStorage.setItem('nexus_favorites', JSON.stringify(favorites));
+                updateCardOrder();
+            });
+        });
+
+        function executeUrlDeepLinking() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetId = urlParams.get('project');
+
+            if (targetId) {
+                const targetCard = document.querySelector(`.card[data-id="${targetId}"]`);
+                if (targetCard) {
+                    setTimeout(() => {
+                        targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        targetCard.classList.add('direct-link-highlight');
+                    }, 300);
+                }
+            }
+        }
+
+        calculateMetrics();
+        executeUrlDeepLinking();
+
+        cards.forEach(card => {
             card.addEventListener('click', function(e) {
+                if (e.target.tagName === 'INPUT' || e.target.classList.contains('favorite-btn') || (e.target.tagName === 'BUTTON' && !e.target.classList.contains('btn'))) return;
+                
                 const targetUrl = this.getAttribute('data-url');
                 const overlay = document.getElementById('transition-overlay');
-                
-                // Get the exact dimensions and positioning of the clicked card
                 const rect = this.getBoundingClientRect();
                 
-                // Set the overlay position exactly where the card is right now
                 overlay.style.top = rect.top + 'px';
                 overlay.style.left = rect.left + 'px';
                 overlay.style.width = rect.width + 'px';
                 overlay.style.height = rect.height + 'px';
-                
-                // Show the overlay block
                 overlay.style.display = 'block';
                 
-                // Trigger the scale animation to fill the screen
-                setTimeout(() => {
-                    overlay.classList.add('active');
-                }, 10);
-                
-                // Redirect after the animation completes (0.45 seconds)
-                setTimeout(() => {
-                    window.location.href = targetUrl;
-                }, 450);
+                setTimeout(() => { overlay.classList.add('active'); }, 10);
+                setTimeout(() => { window.location.href = targetUrl; }, 450);
             });
         });
     </script>
